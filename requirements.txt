@@ -1,0 +1,10 @@
+pandas
+numpy
+openpyxl          # read/write .xlsx
+pyarrow           # parquet/arrow engine for pandas
+requests          # download files from the web/APIs
+tqdm              # progress bars while downloading/processing
+datasets          # Hugging Face datasets loader
+python-dotenv     # load API keys from .env
+matplotlib        # quick sanity-check plots
+jupyter           # if anyone uses notebooks
