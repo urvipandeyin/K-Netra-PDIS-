@@ -26,3 +26,11 @@ jupyter==1.0.0
 flask==3.0.2
 fastapi==0.110.0
 
+# dev-only dependencies
+pytest==8.0.0
+black==24.2.0
+isort==5.13.2
+mypy==1.8.0
+pre-commit==3.6.0
+
+
