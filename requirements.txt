@@ -1,3 +1,4 @@
+# Data Handling
 pandas
 numpy
 openpyxl          # read/write .xlsx
@@ -6,5 +7,21 @@ requests          # download files from the web/APIs
 tqdm              # progress bars while downloading/processing
 datasets          # Hugging Face datasets loader
 python-dotenv     # load API keys from .env
-matplotlib        # quick sanity-check plots
-jupyter           # if anyone uses notebooks
+
+# NLP & Machine Learning
+scikit-learn
+nltk
+spacy
+transformers
+torch
+
+# Visualization
+matplotlib
+seaborn
+
+# Notebooks (for ML team experiments)
+jupyter
+
+# Web frameworks (for scripting team)
+flask
+fastapi
