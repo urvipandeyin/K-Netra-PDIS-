@@ -1,3 +1,11 @@
+# Mac-specific files
+.DS_Store
+
+# IDE/Editor
+.vscode/
+.idea/
+
+
 # -----------------
 # Python ignores
 # -----------------
@@ -79,4 +87,13 @@ build/
 *.json
 *.yaml
 *.yml
+
+# ---------------------
+# Others
+# ---------------------
+*.bak
+*.tmp
+*.cache/
+
+
 
