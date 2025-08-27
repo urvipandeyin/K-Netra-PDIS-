@@ -43,24 +43,3 @@ This document outlines the datasets we have acquired and our plan for combining 
 * **Status:** Downloaded and placed in `data/raw/`.
 * **Source:** [https://www.kaggle.com/datasets/sonalgarg174/ifnd-dataset](https://www.kaggle.com/datasets/sonalgarg174/ifnd-dataset)
 * **Notes:** A dataset specifically curated for Indian news, containing both text and images. It provides excellent content for training a multimodal model.
-
----
-
-### **6. FactDrill**
-
-* **Status:** Email sent to researchers. Awaiting response.
-
-## Data Integration Plan
-
-**Goal:** Create a single `combined_dataset.csv` file in the `data/processed/` folder.
-
-**Steps:**
-1.  Use a Python script with **pandas** to load all acquired datasets.
-2.  Standardize the column names across all files (e.g., all text columns should be named `text`, all label columns should be named `label`).
-3.  Standardize the labels. The combined dataset will use a binary classification system: `1` for fake/hateful content and `0` for legitimate/non-hateful content.
-4.  Remove duplicate entries to ensure the model is not trained on redundant data.
-5.  Save the final, cleaned file as `data/processed/final_dataset.csv`.ed `label`).
-3.  Standardize the labels. The combined dataset will use a binary classification system: `1` for fake/hateful content and `0` for legitimate/non-hateful content.
-4.  Remove duplicate entries to ensure the model is not trained on redundant data.
-5.  Save the final, cleaned file as `data/processed/final_dataset.csv`.
-
