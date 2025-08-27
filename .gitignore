@@ -2,6 +2,7 @@
 .DS_Store
 
 # Virtual environment
+.venv/
 venv/
 
 # Python cache
@@ -19,3 +20,4 @@ data/processed/*
 # Model outputs
 models/checkpoints/*
 models/final/*
+
