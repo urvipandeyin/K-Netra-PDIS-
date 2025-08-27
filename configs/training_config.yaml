@@ -1,0 +1,7 @@
+model_name: "xlm-roberta-base"
+max_length: 256
+batch_size: 16
+learning_rate: 2e-5
+num_epochs: 2
+train_val_split: 0.8
+seed: 42
