@@ -1,99 +1,21 @@
-# Mac-specific files
+# System files
 .DS_Store
 
-# IDE/Editor
-.vscode/
-.idea/
-
-
-# -----------------
-# Python ignores
-# -----------------
-__pycache__/
-*.py[cod]
-*.so
-*.pyo
-*.pyd
-*.pkl
-*.pickle
-
-# -----------------
-# Virtual environments
-# -----------------
-.venv/
-env/
+# Virtual environment
 venv/
-*.env
-*.env.*
 
-# -----------------
-# Jupyter + notebooks
-# -----------------
-.ipynb_checkpoints/
-*.ipynb_checkpoints
+# Python cache
+__pycache__/
+*.pyc
 
-# -----------------
-# Data (raw & processed)
-# -----------------
+# Environment variables
+.env
+
+# Data files
 data/raw/*
-!data/raw/.gitkeep
-
 data/interim/*
-!data/interim/.gitkeep
-
 data/processed/*
-!data/processed/.gitkeep
 
-# -----------------
-# Model files
-# -----------------
+# Model outputs
 models/checkpoints/*
 models/final/*
-!models/checkpoints/.gitkeep
-!models/final/.gitkeep
-
-# -----------------
-# Logs + temp files
-# -----------------
-logs/
-*.log
-*.out
-*.err
-
-# -----------------
-# OS generated
-# -----------------
-.DS_Store
-Thumbs.db
-
-# -----------------
-# Build / cache
-# -----------------
-*.egg-info/
-dist/
-build/
-.eggs/
-
-# -----------------
-# VSCode / IDE
-# -----------------
-.vscode/
-.idea/
-
-# -----------------
-# Secrets
-# -----------------
-.env
-*.json
-*.yaml
-*.yml
-
-# ---------------------
-# Others
-# ---------------------
-*.bak
-*.tmp
-*.cache/
-
-
-
