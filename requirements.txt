@@ -1,22 +1,27 @@
 # Data Handling
 pandas==2.2.0
-numpy==1.26.4openpyxl==3.1.2
+numpy==1.26.4
+openpyxl==3.1.2
 pyarrow==15.0.0
 requests==2.31.0
 tqdm==4.66.2
 datasets==2.18.0
 python-dotenv==1.0.1
+pyyaml==6.0.2
 
 # NLP & Machine Learning
 scikit-learn==1.4.1.post1
 nltk==3.8.1
 spacy==3.7.4
-transformers==4.38.1
+transformers==4.55.4
 torch==2.2.1
 accelerate>=0.21.0
 sentencepiece==0.1.99
 tokenizers==0.13.3
 huggingface-hub==1.26.1
+
+# Messaging / API Clients
+telethon>=1.28.0
 
 # Visualization
 matplotlib==3.8.3
@@ -29,11 +34,9 @@ jupyter==1.0.0
 flask==3.0.2
 fastapi==0.110.0
 
-# dev-only dependencies
+# Dev-only dependencies
 pytest==8.0.0
 black==24.2.0
 isort==5.13.2
 mypy==1.8.0
 pre-commit==3.6.0
-
-

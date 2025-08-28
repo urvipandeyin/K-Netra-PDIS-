@@ -1,0 +1,5 @@
+model_checkpoint: "models/bert-base-multilingual-cased"
+tokenizer_checkpoint: "models/bert-base-multilingual-cased"
+confidence_threshold: 0.6   # e.g. predictions below this are "uncertain"
+max_length: 256
+

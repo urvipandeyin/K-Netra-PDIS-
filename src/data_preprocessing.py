@@ -3,195 +3,145 @@ Data Preprocessing Pipeline for PDIS
 
 - Reads multiple raw datasets (CSV/XLSX) from data/raw/
 - Normalizes them into a common schema: [text, label, source]
-- Handles binary relabeling (harmful=1, safe=0) where needed
+- Converts labels to binary: harmful=1, safe=0
 - Saves final combined dataset to data/processed/combined_dataset.csv
 """
 
 import pandas as pd
-import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 RAW_DIR = BASE_DIR / "data" / "raw"
 PROCESSED_DIR = BASE_DIR / "data" / "processed"
-
-PROCESSED_DIR.mkdir(parents=True, exist_ok=True)  # create if not exists
-
+PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
 # =========================
-# Helper cleaning functions
+# Helper functions
 # =========================
 def clean_text(text):
-    """Basic text cleaning: lowercase, strip spaces, handle NaN safely."""
     if pd.isna(text):
         return ""
-    return str(text).strip().lower()
+    return str(text).strip()
 
-
-def preprocess_dataframe(df, text_column=None, label_column=None):
-    """Generic preprocessing: dropna, drop duplicates, clean text."""
-    df = df.dropna()
-    df = df.drop_duplicates()
-
-    if text_column and text_column in df.columns:
-        df[text_column] = df[text_column].apply(clean_text)
-
-    if label_column and label_column in df.columns:
-        df[label_column] = df[label_column].astype(str).str.strip().str.lower()
-
-    return df
+def map_label(label):
+    """
+    Convert labels to binary:
+    'false', 'no' → 0 (safe)
+    'true', 'yes', 'harmful' → 1 (harmful)
+    """
+    if isinstance(label, str):
+        label = label.strip().lower()
+        if label in ["true", "yes", "harmful", "1"]:
+            return 1
+        else:
+            return 0
+    elif isinstance(label, (int, float)):
+        return int(label)
+    else:
+        return 0
 
 # =========================
-# Dataset-specific loaders
+# Dataset loaders
 # =========================
-def process_bharat_fake_news():
+def process_bharatfakenewskosh():
     file_path = RAW_DIR / "bharatfakenewskosh_(3)[1].xlsx"
     df = pd.read_excel(file_path)
-
-    df = preprocess_dataframe(df, text_column="text", label_column="label")
+    
+    df = df.rename(columns={"Text": "text", "Label": "label"})
+    df = df[["text", "label"]]
+    df["text"] = df["text"].apply(clean_text)
+    df["label"] = df["label"].apply(map_label)
+    df["source"] = "BharatFakeNewsKosh"
 
     out_path = PROCESSED_DIR / "bharatfakenewskosh_clean.csv"
     df.to_csv(out_path, index=False)
-    print(f"[✔] Processed BharatFakeNews saved to {out_path}")
+    print(f"[✔] BharatFakeNewsKosh processed. Rows: {len(df)}")
     return df
-
 
 def process_indo_hatespeech():
     file_path = RAW_DIR / "Indo-HateSpeech_Dataset.xlsx"
-    df = pd.read_csv(file_path)
+    df = pd.read_excel(file_path)
+    
+    # Detect text column (e.g., Column1 or Column2)
+    text_col_candidates = ["Column1", "Column2", "Post", "Content"]
+    text_col = next((c for c in text_col_candidates if c in df.columns), None)
+    if text_col is None:
+        print("[⚠] No text column found in Indo-HateSpeech_Dataset.xlsx, skipping...")
+        return pd.DataFrame(columns=["text","label","source"])
 
-    df = preprocess_dataframe(df, text_column="content", label_column="misinfo_flag")
+    label_col_candidates = ["Label", "misinfo_flag"]
+    label_col = next((c for c in label_col_candidates if c in df.columns), None)
+    if label_col is None:
+        label_col = df.columns[-1]  # fallback to last column
+
+    df = df.rename(columns={text_col: "text", label_col: "label"})
+    df = df[["text", "label"]]
+    df["text"] = df["text"].apply(clean_text)
+    df["label"] = df["label"].apply(map_label)
+    df["source"] = "IndoHateSpeech"
 
     out_path = PROCESSED_DIR / "indo_hatespeech_clean.csv"
     df.to_csv(out_path, index=False)
-    print(f"[✔] Processed Facebook Misinformation saved to {out_path}")
+    print(f"[✔] Indo-HateSpeech processed. Rows: {len(df)}")
     return df
-
-def process_dynamic_hate():
-    """Process dynamically generated hate dataset (entries + targets)."""
-    entries_file = RAW_DIR / "2020-12-31-DynamicallyGeneratedHateDataset-entries-v0.1[1].csv"
-    targets_file = RAW_DIR / "2020-12-31-DynamicallyGeneratedHateDataset-targets-v0.1[1].csv"
-
-    df_entries = pd.read_csv(entries_file)
-    df_targets = pd.read_csv(targets_file)
-
-    # merge side by side
-    df = pd.concat([df_entries, df_targets], axis=1)
-    df = preprocess_dataframe(df, text_column="sentence", label_column="label")
-
-    out_path = PROCESSED_DIR / "dynamic_hate_clean.csv"
-    df.to_csv(out_path, index=False)
-    print(f"[✔] Processed Dynamic Hate Dataset saved to {out_path}")
-    return df
-
-
-def process_constraint_hindi():
-    """Process Constraint Hindi validation dataset."""
-    file_path = RAW_DIR / "Constraint_Hindi_Valid.xlsx"
-    df = pd.read_excel(file_path)
-
-    df = preprocess_dataframe(df, text_column="tweet", label_column="label")
-
-    out_path = PROCESSED_DIR / "constraint_hindi_clean.csv"
-    df.to_csv(out_path, index=False)
-    print(f"[✔] Processed Constraint Hindi saved to {out_path}")
-    return df
-
 
 def process_ifnd():
-    """Process IFND dataset (csv)."""
     file_path = RAW_DIR / "IFND[1].csv"
-    df = pd.read_csv(file_path)
+    try:
+        df = pd.read_csv(file_path, encoding="ISO-8859-1")
+    except:
+        df = pd.read_csv(file_path, encoding="utf-8", errors="ignore")
+    
+    text_col_candidates = ["Statement", "Text", "Post"]
+    text_col = next((c for c in text_col_candidates if c in df.columns), None)
+    label_col_candidates = ["Label", "label"]
+    label_col = next((c for c in label_col_candidates if c in df.columns), None)
 
-    df = preprocess_dataframe(df, text_column="tweet", label_column="label")
+    if text_col is None or label_col is None:
+        print("[⚠] IFND dataset missing required columns, skipping...")
+        return pd.DataFrame(columns=["text","label","source"])
+
+    df = df.rename(columns={text_col: "text", label_col: "label"})
+    df = df[["text", "label"]]
+    df["text"] = df["text"].apply(clean_text)
+    df["label"] = df["label"].apply(map_label)
+    df["source"] = "IFND"
 
     out_path = PROCESSED_DIR / "ifnd_clean.csv"
     df.to_csv(out_path, index=False)
-    print(f"[✔] Processed IFND saved to {out_path}")
-    return df
-
-
-def process_test_set():
-    """Process Test Set Complete dataset."""
-    file_path = RAW_DIR / "Test Set Complete.xlsx"
-    df = pd.read_excel(file_path)
-
-    df = preprocess_dataframe(df, text_column="text", label_column="label")
-
-    out_path = PROCESSED_DIR / "test_set_clean.csv"
-    df.to_csv(out_path, index=False)
-    print(f"[✔] Processed Test Set saved to {out_path}")
+    print(f"[✔] IFND processed. Rows: {len(df)}")
     return df
 
 # =========================
-# Main Runner
+# Main runner
 # =========================
 def main():
-    """Run preprocessing for all datasets and merge into one combined file."""
-    print("Starting preprocessing...")
-
     datasets = []
 
     try:
-        df = process_bharat_fake_news()
-        df = df.rename(columns={"text": "text", "label": "label"})
-        df["source"] = "BharatFakeNews"
-        datasets.append(df[["text", "label", "source"]])
+        datasets.append(process_bharatfakenewskosh())
     except Exception as e:
-        print(f"[✘] BharatFakeNews failed: {e}")
+        print(f"[✘] BharatFakeNewsKosh failed: {e}")
 
     try:
-        df = process_indo_hatespeech()
-        df = df.rename(columns={"content": "text", "misinfo_flag": "label"})
-        df["source"] = "IndoHateSpeech"
-        datasets.append(df[["text", "label", "source"]])
+        datasets.append(process_indo_hatespeech())
     except Exception as e:
         print(f"[✘] IndoHateSpeech failed: {e}")
 
     try:
-        df = process_dynamic_hate()
-        df = df.rename(columns={"sentence": "text", "label": "label"})
-        df["source"] = "DynamicHate"
-        datasets.append(df[["text", "label", "source"]])
-    except Exception as e:
-        print(f"[✘] DynamicHate failed: {e}")
-
-    try:
-        df = process_constraint_hindi()
-        df = df.rename(columns={"tweet": "text", "label": "label"})
-        df["source"] = "ConstraintHindi"
-        datasets.append(df[["text", "label", "source"]])
-    except Exception as e:
-        print(f"[✘] ConstraintHindi failed: {e}")
-
-    try:
-        df = process_ifnd()
-        df = df.rename(columns={"tweet": "text", "label": "label"})
-        df["source"] = "IFND"
-        datasets.append(df[["text", "label", "source"]])
+        datasets.append(process_ifnd())
     except Exception as e:
         print(f"[✘] IFND failed: {e}")
 
-    try:
-        df = process_test_set()
-        df = df.rename(columns={"text": "text", "label": "label"})
-        df["source"] = "TestSet"
-        datasets.append(df[["text", "label", "source"]])
-    except Exception as e:
-        print(f"[✘] TestSet failed: {e}")
-
-    # =========================
-    # Merge all datasets
-    # =========================
     if datasets:
         combined = pd.concat(datasets, ignore_index=True)
+        combined = combined[combined["text"].str.strip() != ""]  # remove empty text
         out_path = PROCESSED_DIR / "combined_dataset.csv"
         combined.to_csv(out_path, index=False)
-        print(f"[✔] Combined dataset saved to {out_path}")
-        print(f"Final shape: {combined.shape}")
+        print(f"\n✅ Combined dataset saved at {out_path}")
+        print(f"Total rows: {len(combined)} | Columns: {combined.columns.tolist()}")
     else:
-        print("[!] No datasets were processed successfully!")
+        print("[!] No datasets processed successfully!")
 
-    print("All datasets processed!")
 if __name__ == "__main__":
     main()

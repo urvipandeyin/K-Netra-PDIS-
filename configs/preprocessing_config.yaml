@@ -1,0 +1,7 @@
+text_column: "text"         # column in dataset with the actual text
+label_column: "label"       # column with target labels
+remove_stopwords: false     # (if you plan NLP cleaning)
+lowercase: true
+strip_accents: true
+train_val_split: 0.8
+max_length: 256             # keep aligned with training config

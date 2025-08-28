@@ -1,4 +1,4 @@
-model_name: "xlm-roberta-base"
+model_name: "bert-base-multilingual-cased"
 max_length: 256
 batch_size: 16
 learning_rate: 2e-5
