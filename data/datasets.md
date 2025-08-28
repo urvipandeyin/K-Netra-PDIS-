@@ -29,16 +29,7 @@ This document outlines the datasets we have acquired and our plan for combining 
 * **Notes:** An already combined dataset that expands our hate speech training data. It will be very useful in ensuring our model generalizes well to different forms of hateful content.
 
 ---
-
-### **4. Learning from the Worst**
-
-* **Status:** Downloaded and placed in `data/raw/`.
-* **Source:** [https://www.kaggle.com/datasets/usharengaraju/dynamically-generated-hate-speech-dataset](https://www.kaggle.com/datasets/usharengaraju/dynamically-generated-hate-speech-dataset)
-* **Notes:** A synthetically generated hate speech dataset that provides a large volume of data for training. It will help make our model more robust against subtly hateful text.
-
----
-
-### **5. IFND (Indian Fake News Dataset)**
+### **4. IFND (Indian Fake News Dataset)**
 
 * **Status:** Downloaded and placed in `data/raw/`.
 * **Source:** [https://www.kaggle.com/datasets/sonalgarg174/ifnd-dataset](https://www.kaggle.com/datasets/sonalgarg174/ifnd-dataset)
