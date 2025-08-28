@@ -21,15 +21,7 @@ This document outlines the datasets we have acquired and our plan for combining 
 * **Notes:** This dataset focuses on hate speech in code-mixed Hindi and English. We will need to relabel its content to fit our binary classification system.
 
 ---
-
-### **3. india-hate-speech-superset**
-
-* **Status:** Downloaded and placed in `data/raw/`.
-* **Source:** [https://huggingface.co/datasets/manueltonneau/india-hate-speech-superset](https://huggingface.co/datasets/manueltonneau/india-hate-speech-superset)
-* **Notes:** An already combined dataset that expands our hate speech training data. It will be very useful in ensuring our model generalizes well to different forms of hateful content.
-
----
-### **4. IFND (Indian Fake News Dataset)**
+### **3. IFND (Indian Fake News Dataset)**
 
 * **Status:** Downloaded and placed in `data/raw/`.
 * **Source:** [https://www.kaggle.com/datasets/sonalgarg174/ifnd-dataset](https://www.kaggle.com/datasets/sonalgarg174/ifnd-dataset)
