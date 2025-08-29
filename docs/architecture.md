@@ -50,3 +50,9 @@ flowchart TD
     G --> H[Alert System (Telegram / Dashboard)]
     H --> I[Legal & Compliance Framework]
     I --> J[Law Enforcement / Regulatory Action]
+    
+## 3. Transparency & Extensibility
+
+- **Transparency**: Every decision is logged (why content was flagged, model confidence).
+- **Extensibility**: New datasets and models can be plugged in easily.
+- **Audit Trail**: Digital evidence is maintained for law enforcement.
