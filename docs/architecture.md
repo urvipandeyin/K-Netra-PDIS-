@@ -1,57 +1,52 @@
-# System Architecture – Project K-Netra (PDIS)
+# System Architecture
 
-## Architecture Flow (Mermaid Diagram)
+This document explains the architecture of the **PDIS (Proactive Digital Intervention System)** project.  
+It shows how different components interact: data, preprocessing, AI models, alerts, and legal framework.
+
+---
+
+## 1. System Components
+
+1. **Data Sources**  
+   - BharatFakeNewsKosh (fake/real news articles)  
+   - IFND (Indian Fake News Dataset)  
+   - Indo-HateSpeech Dataset (hate/offensive text)  
+
+2. **Preprocessing Pipeline**  
+   - Cleaning text (removing stopwords, symbols, URLs)  
+   - Normalization (lowercasing, stemming/lemmatization)  
+   - Label encoding (0 = real, 1 = fake, 2 = hate speech)  
+
+3. **Feature Extraction**  
+   - TF-IDF  
+   - Word2Vec embeddings  
+   - Transformer embeddings (optional advanced)  
+
+4. **AI Models**  
+   - Logistic Regression / Random Forest (baseline)  
+   - Deep Learning (LSTM/Transformer)  
+
+5. **Alert & Action System**  
+   - Telegram bot for real-time alerts  
+   - Risk scoring of content (0 → safe, 1 → high-risk)  
+   - Takedown recommendation  
+
+6. **Legal & Compliance Layer**  
+   - IT Act 2000, IT Rules 2021  
+   - Maintains transparency & audit logs  
+
+---
+
+## 2. Architecture Flow (Mermaid Diagram)
+
 ```mermaid
 flowchart TD
-    A[Input Content] --> B[AI Detection Engine]
-    B --> C{Threat Confidence Score}
-    
-    C -->|>0.9 High Confidence| D[Automated Public Intervention]
-    C -->|0.5 - 0.9 Moderate| E[Human Analyst Review]
-    C -->|<0.5 Low| F[Log for Trend Monitoring]
-    
-    D --> G[Automated Takedown Request under IT Act 2000 + IT Rules 2021]
-    D --> H[Public Counter-Narrative + Official Record]
-    
-    E --> I[Analyst Validates -> Send to D or F]
-    
-    G --> J[Social Media Platforms]
-    H --> K[Public Repository + Neutral Bot Comment]
-    
-    subgraph Encrypted Platforms (Telegram/WhatsApp)
-        L[Detected Malicious Content]
-        L --> M[Digital Evidence Package Generation]
-        M --> N[Police Cyber Cell Alert via Secure Bot]
-    end
-System Components
------------------
-1. AI Detection Engine  
-   - NLP + ML model (datasets: BharatFakeNewsKosh, IFND, Indo-HateSpeech)  
-   - Generates Threat Confidence Score (0–1)  
-   - Risk levels: High >0.9 | Moderate 0.5–0.9 | Low <0.5  
-
-2. Public Intervention (Phase 2)  
-   - Automated Takedown Requests (IT Act 2000, IT Rules 2021)  
-   - Official Public Record (immutable log on GitHub Pages)  
-   - Neutral Comment Bot (context + verified link)  
-
-3. Encrypted Platform Strategy (Phase 3)  
-   - Human-in-the-loop for Telegram/WhatsApp  
-   - Digital Evidence Package (DEP) under BSA 2023  
-   - Secure alert → police cyber cells via encrypted bot  
-
-Transparency Principles
------------------------
-- Public repository ensures accountability  
-- Evidence admissible under BSA 2023  
-- No hidden takedowns, all actions logged  
-
-File Extensions
----------------
-.py   → Python scripts & modules  
-.ipynb → Notebooks for EDA/experiments  
-.yaml → Config files (hyperparameters, paths)  
-.csv / .xlsx → Raw & processed datasets  
-.pkl → Saved ML artifacts (vectorizer, encoder, model)  
-.pt → PyTorch transformer weights  
-.md → Documentation (README, dictionary, architecture)  
+    A[User Generated Content] --> B[Data Collection]
+    B --> C[Preprocessing & Cleaning]
+    C --> D[Feature Extraction: TF-IDF / Word2Vec / Transformers]
+    D --> E[AI Models (LR, RF, LSTM, Transformer)]
+    E --> F[Prediction: Real / Fake / Hate Speech]
+    F --> G[Risk Scoring Engine]
+    G --> H[Alert System (Telegram / Dashboard)]
+    H --> I[Legal & Compliance Framework]
+    I --> J[Law Enforcement / Regulatory Action]
