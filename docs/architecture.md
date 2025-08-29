@@ -43,14 +43,19 @@ It shows how different components interact: data, preprocessing, AI models, aler
 flowchart TD
     A[User Generated Content] --> B[Data Collection]
     B --> C[Preprocessing & Cleaning]
-    C --> D[Feature Extraction: TF-IDF / Word2Vec / Transformers]
-    D --> E[AI Models (LR, RF, LSTM, Transformer)]
-    E --> F[Prediction: Real / Fake / Hate Speech]
+    C --> D[Feature Extraction<br/>(TF-IDF, Word2Vec, Transformer)]
+    D --> E[AI Models<br/>(LR, RF, LSTM, Transformer)]
+    E --> F[Prediction<br/>(Real, Fake, Hate Speech)]
     F --> G[Risk Scoring Engine]
-    G --> H[Alert System (Telegram / Dashboard)]
-    H --> I[Legal & Compliance Framework]
-    I --> J[Law Enforcement / Regulatory Action]
-    
+    G -->|Low Risk| H[Allow Content]
+    G -->|Medium Risk| I[Flagged for Review]
+    G -->|High Risk| J[Auto Takedown + Alert System]
+
+    I --> K[Compliance Framework<br/>(Dashboard)]
+    J --> K
+    K --> L[Law Enforcement<br/>(Regulatory Action)]
+---
+
 ## 3. Transparency & Extensibility
 
 - **Transparency**: Every decision is logged (why content was flagged, model confidence).
