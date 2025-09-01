@@ -69,5 +69,7 @@ flowchart TD
     A[BharatFakeNewsKosh] --> D[Preprocessing & Cleaning]
     B[IFND Dataset] --> D
     C[Indo-HateSpeech] --> D
-    D --> E[Relabeling (0/1)]
-    E --> F[Combined Dataset: combined_dataset.csv]
+    D --> E["Relabeling (0/1)"]
+    E --> F["Combined Dataset: combined_dataset.csv"]
+
+
