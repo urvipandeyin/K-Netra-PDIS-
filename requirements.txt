@@ -17,7 +17,7 @@ transformers==4.55.4
 torch==2.2.1
 accelerate>=0.21.0
 sentencepiece==0.1.99
-tokenizers==0.13.3
+tokenizers==0.21.0
 huggingface-hub>=0.23.0
 
 # Messaging / API Clients
@@ -27,12 +27,10 @@ telethon>=1.28.0
 matplotlib==3.8.3
 seaborn==0.13.2
 
-# Notebooks (for ML team experiments)
-jupyter==1.0.0
-
 # Web Frameworks (for scripting team)
-flask==3.0.2
 fastapi==0.110.0
+gunicorn
+uvicorn
 
 # Dev-only dependencies
 pytest==8.0.0
@@ -40,4 +38,8 @@ black==24.2.0
 isort==5.13.2
 mypy==1.8.0
 
+# Notebooks (for ML team experiments)
+jupyter==1.0.0
+
+# General tooling
 pre-commit==3.6.0
