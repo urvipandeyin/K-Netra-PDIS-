@@ -18,7 +18,7 @@ torch==2.2.1
 accelerate>=0.21.0
 sentencepiece==0.1.99
 tokenizers==0.13.3
-huggingface-hub==1.26.1
+huggingface-hub>=0.23.0
 
 # Messaging / API Clients
 telethon>=1.28.0
@@ -39,4 +39,5 @@ pytest==8.0.0
 black==24.2.0
 isort==5.13.2
 mypy==1.8.0
+
 pre-commit==3.6.0
