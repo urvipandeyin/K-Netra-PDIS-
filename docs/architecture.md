@@ -33,7 +33,12 @@ It shows how different components interact: data, preprocessing, AI models, aler
 
 6. **Legal & Compliance Layer**  
    - IT Act 2000, IT Rules 2021  
-   - Maintains transparency & audit logs  
+   - Maintains transparency & audit logs
+
+7. **Transparency & Extensibility**
+   - Transparency: Every decision is logged (why content was flagged, model confidence).
+   - **Extensibility**: New datasets and models can be plugged in easily.
+   - **Audit Trail**: Digital evidence is maintained for law enforcement.
 
 ---
 
@@ -41,23 +46,17 @@ It shows how different components interact: data, preprocessing, AI models, aler
 
 ```mermaid
 flowchart TD
-    A[User Generated Content] --> B[Data Collection]
-    B --> C[Preprocessing & Cleaning]
-    C --> D[Feature Extraction<br/>(TF-IDF, Word2Vec, Transformer)]
-    D --> E[AI Models<br/>(LR, RF, LSTM, Transformer)]
-    E --> F[Prediction<br/>(Real, Fake, Hate Speech)]
-    F --> G[Risk Scoring Engine]
-    G -->|Low Risk| H[Allow Content]
-    G -->|Medium Risk| I[Flagged for Review]
-    G -->|High Risk| J[Auto Takedown + Alert System]
+    A["User Generated Content"] --> B["Data Collection"]
+    B --> C["Preprocessing & Cleaning"]
+    C --> D["Feature Extraction\n(TF-IDF, Word2Vec, Transformer)"]
+    D --> E["AI Models\n(LR, RF, LSTM, Transformer)"]
+    E --> F["Prediction\n(Real, Fake, Hate Speech)"]
+    F --> G["Risk Scoring Engine"]
+    G -->|Low Risk| H["Allow Content"]
+    G -->|Medium Risk| I["Flagged for Review"]
+    G -->|High Risk| J["Auto Takedown + Alert System"]
 
-    I --> K[Compliance Framework<br/>(Dashboard)]
+    I --> K["Compliance Framework\n(Dashboard)"]
     J --> K
-    K --> L[Law Enforcement<br/>(Regulatory Action)]
----
+    K --> L["Law Enforcement\n(Regulatory Action)"]
 
-## 3. Transparency & Extensibility
-
-- **Transparency**: Every decision is logged (why content was flagged, model confidence).
-- **Extensibility**: New datasets and models can be plugged in easily.
-- **Audit Trail**: Digital evidence is maintained for law enforcement.
